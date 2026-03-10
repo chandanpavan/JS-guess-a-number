@@ -1,5 +1,4 @@
 const randomNumber = Math.floor(Math.random() * 100) + 1;
-console.log(randomNumber);
 
 const form = document.querySelector("form");
 const lastresult = document.querySelector("#lastresult");
