@@ -1,7 +1,10 @@
-const todos = document.querySelector("#todo-list");
-const adddbtn = document.querySelector(".addbtn");
-const todoInput = document.querySelector(".todo-input");
-const todoList = document.querySelector(".todo-list");
+// Dont follow this approach, follow that function wala method
+// This is messy :)
+
+const form = document.querySelector("form");
+const adddbtn = document.querySelector("#addbtn");
+const todoInput = document.querySelector("#todo-input");
+const todoList = document.querySelector("#todo-list");
 let todoArr = [];
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -12,47 +15,54 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (todoArr != null) {
     todoArr.forEach((element) => {
-      const todo = document.createElement("li");
-      todo.textContent = element;
-      todoList.appendChild(todo);
+      const li = document.createElement("li");
+      li.textContent = element; // li.textContent = element;
+      todoList.appendChild(li);
 
       const delbtn = document.createElement("button");
       delbtn.textContent = "Delete";
-      todo.appendChild(delbtn);
+      li.appendChild(delbtn);
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      todo.appendChild(checkbox);
+      li.appendChild(checkbox);
 
       delbtn.addEventListener("click", () => {
-        todoList.removeChild(todo);
+        li.remove();
+        todoArr = todoArr.filter((t) => t !== element);
+        localStorage.setItem("todo", JSON.stringify(todoArr));
+      });
+
+      checkbox.addEventListener("change", () => {
+        li.style.textDecoration = checkbox.checked ? "line-through" : "none";
       });
     });
   }
 
-  adddbtn.addEventListener("click", (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const todo = document.createElement("li");
-    todo.textContent = todoInput.value;
-    todoList.appendChild(todo);
+    const li = document.createElement("li");
+    li.textContent = todoInput.value;
+    todoList.appendChild(li);
     todoArr.push(todoInput.value);
-    const textContent = todo.textContent;
+    const textContent = li.textContent;
+    todoInput.value = "";
 
     const delbtn = document.createElement("button");
     delbtn.textContent = "Delete";
-    todo.appendChild(delbtn);
+    li.appendChild(delbtn);
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    todo.appendChild(checkbox);
+    li.appendChild(checkbox);
 
     delbtn.addEventListener("click", () => {
-      todoList.removeChild(todo);
+      todoList.removeChild(li);
     });
 
-    checkbox.addEventListener("click", () => {
-      todo.innerHTML = `<strike>${textContent}</strike>`;
+    checkbox.addEventListener("change", () => {
+      li.style.textDecoration = checkbox.checked ? "line-through" : "none";
     });
 
     localStorage.setItem("todo", JSON.stringify(todoArr));
