@@ -1,0 +1,121 @@
+/* Global body styles */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #fc9191; /* matches earlier inline color */
+  color: #212121;
+}
+
+/* Outer wrapper using existing class */
+div.todo-list {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+div.todo-list h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Form layout (select the only form inside .todo-list) */
+div.todo-list > form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Input and button selectors based on ids */
+#todo-input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#add-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#add-btn:hover {
+  background: #0056b3;
+}
+
+/* Todo list styles for ul#todo-list inside container */
+ul#todo-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+ul#todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #eee;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+ul#todo-list li:last-child {
+  border-bottom: none;
+}
+
+ul#todo-list li button {
+  margin-left: 1rem;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+ul#todo-list li button:hover {
+  background: #c82333;
+}
+
+ul#todo-list li input[type="checkbox"] {
+  margin-left: 0.5rem;
+}
+
+/* Fade-in animation for new todos */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Placeholder color for the input */
+#todo-input::placeholder {
+  color: #999;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  div.todo-list {
+    padding: 1rem;
+  }
+
+  #add-btn,
+  #todo-input {
+    font-size: 0.9rem;
+  }
+}

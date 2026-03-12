@@ -1,6 +1,3 @@
-// Refernce -1
-// In this the strike-through is not updated , it needs to be an object to update the object .
-
 const form = document.querySelector("form");
 const addbtn = document.getElementById("add-btn");
 const todoList = document.getElementById("todo-list");
@@ -12,7 +9,7 @@ function saveTodos() {
 }
 function renderTodos(todo) {
   const li = document.createElement("li");
-  li.textContent = todo;
+  li.textContent = todo.text;
   todoList.append(li);
 
   const delbtn = document.createElement("button");
@@ -30,21 +27,37 @@ function renderTodos(todo) {
   });
 
   checkbox.addEventListener("change", () => {
-    li.style.textDecoration = checkbox.checked ? "line-through" : "none";
+    if (checkbox.checked) {
+      li.style.textDecoration = "line-through";
+      todo.completed = true;
+    } else {
+      li.style.textDecoration = "none";
+      todo.completed = false;
+    }
+    saveTodos();
   });
+
+  if (todo.completed) {
+    checkbox.checked = true;
+    li.style.textDecoration = "line-through";
+  }
 }
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const todo = todoInput.value;
-  if (todoInput.value === "") {
+  const todo = todoInput.value.trim();
+  if (todo === "") {
     return;
   }
 
-  todos.push(todo);
+  const newTodo = {
+    text: todo,
+    completed: false,
+  };
+  todos.push(newTodo);
   saveTodos();
 
-  renderTodos(todo);
+  renderTodos(newTodo);
 
   todoInput.value = "";
 });
