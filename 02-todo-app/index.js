@@ -7,50 +7,53 @@ let todos = [];
 function saveTodos() {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
+function renderTodos(todo) {
+  const li = document.createElement("li");
+  li.textContent = todo;
+  todoList.append(li);
 
+  const delbtn = document.createElement("button");
+  delbtn.textContent = "Delete";
+  li.appendChild(delbtn);
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  li.appendChild(checkbox);
+
+  delbtn.addEventListener("click", () => {
+    li.remove(); // new thing --> take this on note and also abt the local Storage .
+    todos = todos.filter((t) => t !== todo);
+    saveTodos();
+  });
+
+  checkbox.addEventListener("click", () => {
+    li.style.textDecoration = checkbox.checked ? "line-through" : none;
+  });
+}
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
+  const todo = todoInput.value;
   if (todoInput.value === "") {
     return;
   }
 
-  const todo = todoInput.value;
-  const checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  const li = document.createElement("li");
-  const delbtn = document.createElement("button");
-
   todos.push(todo);
   saveTodos();
-  delbtn.textContent = "delete";
 
-  checkbox.addEventListener("click", () => {
-    li.innerHTML = `<strike>${todo}</strike>  (Completed)`;
-  });
-
-  delbtn.addEventListener("click", () => {
-    li.removeChild(delbtn);
-    todoList.removeChild(li);
-  });
-
-  // li.textContent = todo;
-  li.innerHTML = `${todo}`;
-  todoList.appendChild(li);
-  li.appendChild(checkbox);
-  li.appendChild(delbtn);
+  renderTodos(todo);
 
   todoInput.value = "";
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  //   function loadTodos() {
   const storedTodos = localStorage.getItem("todos");
 
   if (storedTodos) {
     todos = JSON.parse(storedTodos);
   }
 
-  todoList.appendChild(todos);
-  // }
+  todos.forEach((todo) => {
+    renderTodos(todo);
+  });
 });
